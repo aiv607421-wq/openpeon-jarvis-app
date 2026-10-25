@@ -1,0 +1,6 @@
+build/
+*.log
+.DS_Store
+assets/vosk-model-small-en-us-0.15/
+assets/vosk-model-spk-0.4/
+assets/sounds/
