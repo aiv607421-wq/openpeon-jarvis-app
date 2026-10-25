@@ -1,5 +1,6 @@
 package com.stark.jarvis;
 
+import android.content.Intent;
 import android.service.quicksettings.Tile;
 import android.service.quicksettings.TileService;
 
