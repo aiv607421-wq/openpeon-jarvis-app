@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 # Fetches the Vosk models and the JARVIS voice pack into assets/ (not stored in git).
 set -euo pipefail
-cd "$(dirname "$0")/.."
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR/.."
 
 mkdir -p assets
 fetch_model() {
   local dir=$1 url=$2
   if [ ! -d "assets/$dir" ]; then
     echo "==> fetching $dir..."
-    curl -sL -o "/tmp/$dir.zip" "$url"
+    # The official server throttles single connections to a crawl; give it a
+    # short window, then fall back to parallel range-chunked download.
+    if ! curl -sL --fail --max-time 60 -o "/tmp/$dir.zip" "$url"; then
+      echo "    server slow/failed; using parallel chunk download..."
+      bash "$SCRIPT_DIR/fetch-parallel.sh" "$url" "/tmp/$dir.zip" 10
+    fi
     unzip -q -o "/tmp/$dir.zip" -d assets
     rm -f "/tmp/$dir.zip"
   fi
