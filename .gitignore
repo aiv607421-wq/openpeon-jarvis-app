@@ -1,4 +1,6 @@
 build/
+sources.txt
+jarvis.keystore
 *.log
 .DS_Store
 assets/vosk-model-small-en-us-0.15/
