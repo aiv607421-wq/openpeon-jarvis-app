@@ -1,1 +1,1 @@
-REM_BUILD_PROMPT
+login
